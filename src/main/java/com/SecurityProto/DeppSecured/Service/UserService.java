@@ -2,13 +2,16 @@ package com.SecurityProto.DeppSecured.Service;
 
 import com.SecurityProto.DeppSecured.Dto.UserRequest;
 import com.SecurityProto.DeppSecured.Dto.UserResponse;
+import com.SecurityProto.DeppSecured.Entity.Role;
 import com.SecurityProto.DeppSecured.Entity.Users;
+import com.SecurityProto.DeppSecured.Repository.RoleRepo;
 import com.SecurityProto.DeppSecured.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -16,6 +19,9 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepo roleRepo;
+
+
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // Register
@@ -29,6 +35,13 @@ public class UserService {
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEnabled(true);
+
+        Role role = roleRepo.findByName("ROLE_USER").get();
+        if (user.getRoles() == null) {
+            user.setRoles(new HashSet<>());
+        }
+
+        user.getRoles().add(role);
 
         return mapToResponse(userRepository.save(user));
     }
