@@ -30,6 +30,8 @@ public class CustomUserDetails implements UserDetails {
                 .toList();
     }
 
+
+    //password: amol090
     @Override
     public @Nullable String getPassword() {
         return user.getPassword();
