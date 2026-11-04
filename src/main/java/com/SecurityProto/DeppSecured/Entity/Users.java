@@ -33,6 +33,7 @@ public class Users {
     @Column(nullable = false)
     private boolean isEnabled = true;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
