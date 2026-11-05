@@ -31,7 +31,6 @@ public class CustomUserDetails implements UserDetails {
     }
 
 
-    //password: amol090
     @Override
     public @Nullable String getPassword() {
         return user.getPassword();
